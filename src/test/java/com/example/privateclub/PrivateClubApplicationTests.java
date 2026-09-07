@@ -1,4 +1,4 @@
-package com.example.private_club;
+package com.example.privateclub;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

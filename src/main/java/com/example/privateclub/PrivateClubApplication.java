@@ -1,4 +1,4 @@
-package com.example.private_club;
+package com.example.privateclub;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
