@@ -35,7 +35,8 @@ public class Participant {
     @JsonManagedReference
     private List<QRCode> qrCodes = new ArrayList<>();
 
-    public Participant() {}
+    public Participant() {
+    }
 
     public Participant(String lastName, String firstName, String middleName) {
         this.lastName = lastName;
@@ -49,12 +50,14 @@ public class Participant {
 
     public void setQrCodes(List<QRCode> qrCodes) {
         this.qrCodes = qrCodes;
-        if(qrCodes != null) {
+        if (qrCodes != null) {
             qrCodes.forEach(q -> q.setParticipant(this));
         }
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
     public String getLastName() {
         return lastName;

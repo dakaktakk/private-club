@@ -1,6 +1,5 @@
 package com.example.privateclub.service.impl;
 
-import com.example.privateclub.domain.dto.request.qrcode.QRCodesRequest;
 import com.example.privateclub.domain.dto.response.qrcode.QRCodeResponse;
 import com.example.privateclub.domain.entity.Participant;
 import com.example.privateclub.domain.entity.QRCode;
@@ -89,11 +88,11 @@ public class QRCodeServiceImpl implements QRCodeService {
                 .toList();
     }
 
-     @Override
-     @Transactional
-     public void deleteQRCode(Long id) {
-         QRCode qrCode = qrCodesRepository.findById(id)
-                 .orElseThrow(() -> new RuntimeException("QR-код не найден: " + id));
-         qrCodesRepository.delete(qrCode);
-     }
+    @Override
+    @Transactional
+    public void deleteQRCode(Long id) {
+        QRCode qrCode = qrCodesRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("QR-код не найден: " + id));
+        qrCodesRepository.delete(qrCode);
+    }
 }

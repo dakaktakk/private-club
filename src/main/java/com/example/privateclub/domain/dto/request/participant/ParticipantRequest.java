@@ -1,4 +1,5 @@
 package com.example.privateclub.domain.dto.request.participant;
+
 import jakarta.validation.constraints.NotBlank;
 
 public record ParticipantRequest(

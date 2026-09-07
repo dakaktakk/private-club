@@ -4,7 +4,6 @@ import com.example.privateclub.domain.dto.request.participant.ParticipantRequest
 import com.example.privateclub.domain.dto.response.participant.ParticipantResponse;
 import com.example.privateclub.service.ParticipantsService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

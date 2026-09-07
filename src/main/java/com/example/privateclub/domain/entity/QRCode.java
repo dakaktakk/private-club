@@ -33,13 +33,16 @@ public class QRCode {
     @JsonBackReference
     private Participant participant;
 
-    public QRCode() {}
+    public QRCode() {
+    }
 
     public QRCode(UUID code) {
         this.code = code;
     }
 
-    public Long getId() { return id; }
+    public Long getId() {
+        return id;
+    }
 
     public UUID getCode() {
         return code;
@@ -49,11 +52,19 @@ public class QRCode {
         this.code = code;
     }
 
-    public boolean isActive() { return active; }
+    public boolean isActive() {
+        return active;
+    }
 
-    public void setActive(boolean active) { this.active = active; }
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 
-    public Participant getParticipant() { return participant; }
+    public Participant getParticipant() {
+        return participant;
+    }
 
-    public void setParticipant(Participant participant) { this.participant = participant; }
+    public void setParticipant(Participant participant) {
+        this.participant = participant;
+    }
 }

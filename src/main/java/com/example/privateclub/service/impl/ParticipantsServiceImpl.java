@@ -6,8 +6,8 @@ import com.example.privateclub.domain.entity.Participant;
 import com.example.privateclub.domain.mapper.ParticipantMapper;
 import com.example.privateclub.repository.ParticipantsRepository;
 import com.example.privateclub.service.ParticipantsService;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -70,7 +70,7 @@ public class ParticipantsServiceImpl implements ParticipantsService {
     @Override
     public void deleteParticipant(Long id) {
 
-        if(!participantsRepository.existsById(id)) {
+        if (!participantsRepository.existsById(id)) {
             throw new RuntimeException("Участник не найден по id: " + id);
         }
 
