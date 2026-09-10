@@ -7,7 +7,10 @@ import com.example.privateclub.domain.mapper.QRCodesMapper;
 import com.example.privateclub.repository.ParticipantsRepository;
 import com.example.privateclub.repository.QRCodesRepository;
 import com.example.privateclub.service.QRCodeService;
-import jakarta.persistence.EntityNotFoundException;
+import jakarta.ws.rs.NotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,30 +20,25 @@ import java.util.UUID;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class QRCodeServiceImpl implements QRCodeService {
 
     private final QRCodesRepository qrCodesRepository;
     private final ParticipantsRepository participantsRepository;
     private final QRCodesMapper qrCodesMapper;
 
-    public QRCodeServiceImpl(QRCodesRepository qrCodesRepository, ParticipantsRepository participantsRepository, QRCodesMapper qrCodesMapper) {
-        this.qrCodesRepository = qrCodesRepository;
-        this.participantsRepository = participantsRepository;
-        this.qrCodesMapper = qrCodesMapper;
-    }
-
     @Override
     @Transactional
     public QRCodeResponse entryQRCode(UUID codeId) {
         QRCode qrCode = qrCodesRepository.findByCode(codeId)
-                .orElseThrow(() -> new RuntimeException("QR-code не найден: " + codeId));
+                .orElseThrow(() -> new NotFoundException("QR-code не найден: " + codeId));
 
         var participantId = qrCode.getParticipant();
 
         qrCodesRepository.findByParticipantAndActiveTrue(participantId)
                 .ifPresent(oldCode -> oldCode.setActive(false));
 
-        QRCode newQRCode = new QRCode(UUID.randomUUID());
+        QRCode newQRCode = new QRCode();
         newQRCode.setCode(UUID.randomUUID());
         newQRCode.setActive(true);
         newQRCode.setParticipant(participantId);
@@ -54,7 +52,7 @@ public class QRCodeServiceImpl implements QRCodeService {
     @Transactional
     public QRCodeResponse createQRCode(Long participantId) {
         Participant participant = participantsRepository.findById(participantId)
-                .orElseThrow(() -> new EntityNotFoundException("Участник не найден: " + participantId));
+                .orElseThrow(() -> new NotFoundException("Участник не найден: " + participantId));
 
         Optional<QRCode> existingActive = qrCodesRepository.findByParticipantIdAndActiveTrue(participantId);
 
@@ -62,7 +60,8 @@ public class QRCodeServiceImpl implements QRCodeService {
             return qrCodesMapper.toDto(existingActive.get());
         }
 
-        QRCode newQRCode = new QRCode(UUID.randomUUID());
+        QRCode newQRCode = new QRCode();
+        newQRCode.setCode(UUID.randomUUID());
         newQRCode.setActive(true);
         newQRCode.setParticipant(participant);
         qrCodesRepository.save(newQRCode);
@@ -81,11 +80,9 @@ public class QRCodeServiceImpl implements QRCodeService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<QRCodeResponse> getAllQRCode() {
-        return qrCodesRepository.findAll()
-                .stream()
-                .map(qrCodesMapper::toDto)
-                .toList();
+    public Page<QRCodeResponse> getAllQRCode(Pageable pageable) {
+        return qrCodesRepository.findAll(pageable)
+                .map(qrCodesMapper::toDto);
     }
 
     @Override

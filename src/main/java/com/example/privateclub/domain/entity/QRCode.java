@@ -10,11 +10,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.util.UUID;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "QR_CODES")
 public class QRCode {
 
@@ -32,39 +38,4 @@ public class QRCode {
     @JoinColumn(name = "participants_id")
     @JsonBackReference
     private Participant participant;
-
-    public QRCode() {
-    }
-
-    public QRCode(UUID code) {
-        this.code = code;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public UUID getCode() {
-        return code;
-    }
-
-    public void setCode(UUID code) {
-        this.code = code;
-    }
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Participant getParticipant() {
-        return participant;
-    }
-
-    public void setParticipant(Participant participant) {
-        this.participant = participant;
-    }
 }

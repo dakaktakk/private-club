@@ -9,12 +9,18 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 @Table(name = "participants")
 public class Participant {
 
@@ -34,52 +40,4 @@ public class Participant {
     @OneToMany(mappedBy = "participant", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<QRCode> qrCodes = new ArrayList<>();
-
-    public Participant() {
-    }
-
-    public Participant(String lastName, String firstName, String middleName) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.middleName = middleName;
-    }
-
-    public List<QRCode> getQrCodes() {
-        return qrCodes;
-    }
-
-    public void setQrCodes(List<QRCode> qrCodes) {
-        this.qrCodes = qrCodes;
-        if (qrCodes != null) {
-            qrCodes.forEach(q -> q.setParticipant(this));
-        }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
-    }
 }

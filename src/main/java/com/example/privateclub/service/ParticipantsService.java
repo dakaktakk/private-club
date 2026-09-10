@@ -2,8 +2,8 @@ package com.example.privateclub.service;
 
 import com.example.privateclub.domain.dto.request.participant.ParticipantRequest;
 import com.example.privateclub.domain.dto.response.participant.ParticipantResponse;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface ParticipantsService {
 
@@ -11,7 +11,7 @@ public interface ParticipantsService {
 
     ParticipantResponse getParticipantById(Long id);
 
-    List<ParticipantResponse> getAllParticipants();
+    Page<ParticipantResponse> getAllParticipants(Pageable pageable);
 
     ParticipantResponse updateParticipant(Long id, ParticipantRequest participantRequest);
 

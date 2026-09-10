@@ -2,6 +2,10 @@ package com.example.privateclub.controller;
 
 import com.example.privateclub.domain.dto.response.qrcode.QRCodeResponse;
 import com.example.privateclub.service.QRCodeService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,18 +16,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.UUID;
 
+import static org.springframework.data.domain.Sort.Direction.ASC;
+
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/qr-codes")
 public class QRCodeController {
 
     private final QRCodeService qrCodeService;
-
-    public QRCodeController(QRCodeService qrCodeService) {
-        this.qrCodeService = qrCodeService;
-    }
 
     @PostMapping("/entry")
     public ResponseEntity<QRCodeResponse> entryQRCode(@RequestParam UUID codeId) {
@@ -44,8 +46,11 @@ public class QRCodeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<QRCodeResponse>> getAllQRCode() {
-        List<QRCodeResponse> responses = qrCodeService.getAllQRCode();
+    public ResponseEntity<Page<QRCodeResponse>> getAllQRCode(
+            @PageableDefault(size = 10, sort = "id", direction = ASC)
+            Pageable pageable) {
+
+        Page<QRCodeResponse> responses = qrCodeService.getAllQRCode(pageable);
         return ResponseEntity.ok(responses);
     }
 

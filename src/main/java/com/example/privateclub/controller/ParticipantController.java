@@ -4,6 +4,10 @@ import com.example.privateclub.domain.dto.request.participant.ParticipantRequest
 import com.example.privateclub.domain.dto.response.participant.ParticipantResponse;
 import com.example.privateclub.service.ParticipantsService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,20 +18,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
+import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/v1/participants")
 public class ParticipantController {
 
     private final ParticipantsService participantsService;
-
-    public ParticipantController(ParticipantsService participantsService) {
-        this.participantsService = participantsService;
-    }
 
     @PostMapping
     public ResponseEntity<ParticipantResponse> createParticipant(
@@ -43,8 +43,11 @@ public class ParticipantController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ParticipantResponse>> getAllParticipants() {
-        List<ParticipantResponse> responses = participantsService.getAllParticipants();
+    public ResponseEntity<Page<ParticipantResponse>> getAllParticipants(
+            @PageableDefault(size = 10, sort = "id", direction = ASC)
+            Pageable pageable) {
+
+        Page<ParticipantResponse> responses = participantsService.getAllParticipants(pageable);
         return ResponseEntity.ok(responses);
     }
 
