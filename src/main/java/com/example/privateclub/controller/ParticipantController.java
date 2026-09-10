@@ -44,7 +44,7 @@ public class ParticipantController {
 
     @GetMapping
     public ResponseEntity<Page<ParticipantResponse>> getAllParticipants(
-            @PageableDefault(size = 10, sort = "id", direction = ASC)
+            @PageableDefault(sort = "id", direction = ASC)
             Pageable pageable) {
 
         Page<ParticipantResponse> responses = participantsService.getAllParticipants(pageable);

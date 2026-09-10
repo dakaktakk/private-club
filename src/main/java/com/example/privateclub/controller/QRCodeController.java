@@ -47,7 +47,7 @@ public class QRCodeController {
 
     @GetMapping
     public ResponseEntity<Page<QRCodeResponse>> getAllQRCode(
-            @PageableDefault(size = 10, sort = "id", direction = ASC)
+            @PageableDefault(sort = "id", direction = ASC)
             Pageable pageable) {
 
         Page<QRCodeResponse> responses = qrCodeService.getAllQRCode(pageable);
